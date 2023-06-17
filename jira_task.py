@@ -30,7 +30,7 @@ def get_all_assigned_issues():
         if not found:
             # Create a new issue if not found in Github
             repo.create_issue(
-                title=issue.fields.summary,
+                title=f"[{issue.key}] {issue.fields.summary}",
                 body=str(issue.fields.description)
             )
 
