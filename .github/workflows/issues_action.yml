@@ -13,7 +13,7 @@ jobs:
       - name: Extract Jira issue key
         id: extract_key
         run: |
-          echo "issue_key=${{ github.event.issue.title }} | grep -oP '\[\K[^]]+'" >> $GITHUB_OUTPUT
+          echo "issue_key=$(echo ${{ github.event.issue.title }} | grep -oP '\[\K[^]]+')" >> $GITHUB_OUTPUT
           
       - name: Check Status
         id: issue_status
