@@ -24,6 +24,8 @@ jobs:
             echo "::set-output name=id::'21'"
           fi
           
+          echo 'https://${{ secrets.JIRA_URL }}/rest/api/2/issue/${{ steps.extract_key.outputs.issue_key }}/transitions'
+          
       - name: Check Status
         run: |
           curl --request POST  \ 
