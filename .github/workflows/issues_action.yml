@@ -15,17 +15,20 @@ jobs:
         run: |
           echo "::set-output name=issue_key::${{ github.event.issue.title }} | grep -oP '\[\K[^]]+'"
 
-      - name: Task Action
+      - name: Check Status
+        id: issue_status
         run: |
           if [[ "${{ github.event.action }}" == "closed" ]]; then
-            id="31"
+            echo "::set-output name=id::'31'"
           elif [[ "${{ github.event.action }}" == "labeled" && "${{ github.event.label.name }}" == "on-going" ]]; then
-            id="21"
+            echo "::set-output name=id::'21'"
           fi
           
+      - name: Check Status
+        run: |
           curl --request POST  \ 
-          --url 'https://${{ secrets.JIRA_URL }}/rest/api/2/issue/REP-181/transitions'   \
+          --url 'https://${{ secrets.JIRA_URL }}/rest/api/2/issue/${{ steps.extract_key.outputs.issue_key }}/transitions'   \
           --user '${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_PASSWD }}'   \
           --header 'Accept: application/json'   \
           --header 'Content-Type: application/json'   \
-          --data '{"transition": {"id": $id}}'
+          --data '{"transition": {"id": ${{ steps.issue_status.outputs.id }}}}'
