@@ -6,11 +6,11 @@ def get_all_assigned_issues():
     # Jira setup
     jira = JIRA(
         server='https://jira.yitec.group/',
-        basic_auth=("nam.tran", "123@123a")
+        basic_auth=(os.getenv('JIRA_USERNAME'),os.getenv('JIRA_PASSWD'))
     )
 
     # GitHub setup
-    g = Github("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")
+    g = Github(os.getenv('GITHUB_TOKEN'))
 
     repo = g.get_repo('aidenpearce001/daily-task')
 
