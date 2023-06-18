@@ -1,7 +1,7 @@
 name: On Issue Closed
 on:
   issues:
-    types: [closed]
+    types: [closed, labeled, unlabeled]
 
 jobs:
   issue-closed:
@@ -15,12 +15,19 @@ jobs:
         run: |
           echo "::set-output name=issue_key::${{ github.event.issue.title }} | grep -oP '\[\K[^]]+')"
 
-      - name: Close Task
+      - name: Task Action
         run: |
+          if [[ "${{ github.event.action }}" == "closed" ]]; then
+            $id=31
+            # put your commands for when the issue is closed here
+          elif [[ "${{ github.event.action }}" == "labeled" ]]; then
+            $id=3
+            # put your commands for when the issue is labeled here
+          fi
           curl \
            -D- \
            -u '${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_PASSWD }}' \
            -X POST \
            -H "Content-Type: application/json" \
-           --data '{"transition":{"id":"31"}}'
+           --data '{"transition":{"id":$id}}'
            https://${{ secrets.JIRA_URL }}/rest/api/2/issue/${{ steps.extract_key.outputs.issue_key }}/transitions
