@@ -13,18 +13,16 @@ jobs:
       - name: Extract Jira issue key
         id: extract_key
         run: |
-          echo "::set-output name=issue_key::${{ github.event.issue.title }} | grep -oP '\[\K[^]]+'"
-
+          echo "issue_key=${{ github.event.issue.title }} | grep -oP '\[\K[^]]+'" >> $GITHUB_OUTPUT
+          
       - name: Check Status
         id: issue_status
         run: |
           if [[ "${{ github.event.action }}" == "closed" ]]; then
-            echo "::set-output name=id::'31'"
+            echo "id='31'" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event.action }}" == "labeled" && "${{ github.event.label.name }}" == "on-going" ]]; then
-            echo "::set-output name=id::'21'"
+            echo "id='21'" >> $GITHUB_OUTPUT
           fi
-          
-          echo 'https://${{ secrets.JIRA_URL }}/rest/api/2/issue/${{ steps.extract_key.outputs.issue_key }}/transitions'
           
       - name: Check Status
         run: |
