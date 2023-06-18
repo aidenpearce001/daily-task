@@ -19,12 +19,13 @@ jobs:
         run: |
           if [[ "${{ github.event.action }}" == "closed" ]]; then
             $id="31"
-          if [[ "${{ github.event.action }}" == "labeled" && "${{ github.event.label.name }}" == "on-going" ]]; then
+          elif [[ "${{ github.event.action }}" == "labeled" && "${{ github.event.label.name }}" == "on-going" ]]; then
             $id="21"
           fi
-            curl --request POST  \ 
-            --url 'https://${{ secrets.JIRA_URL }}/rest/api/2/issue/REP-181/transitions'   \
-            --user '${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_PASSWD }}'   \
-            --header 'Accept: application/json'   \
-            --header 'Content-Type: application/json'   \
-            --data '{"transition": {"id": $id}}'
+          
+          curl --request POST  \ 
+          --url 'https://${{ secrets.JIRA_URL }}/rest/api/2/issue/REP-181/transitions'   \
+          --user '${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_PASSWD }}'   \
+          --header 'Accept: application/json'   \
+          --header 'Content-Type: application/json'   \
+          --data '{"transition": {"id": $id}}'
