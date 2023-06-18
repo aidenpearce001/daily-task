@@ -26,10 +26,4 @@ jobs:
           
       - name: Check Status
         run: |
-          curl \
-          --request POST \ 
-          --url 'https://${{ secrets.JIRA_URL }}/rest/api/2/issue/${{ steps.extract_key.outputs.issue_key }}/transitions' \
-          --user '${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_PASSWD }}' \
-          --header 'Accept: application/json' \
-          --header 'Content-Type: application/json' \
-          --data '{"transition": {"id": ${{ steps.issue_status.outputs.id }}}}'
+          curl --request POST --url 'https://${{ secrets.JIRA_URL }}/rest/api/2/issue/${{ steps.extract_key.outputs.issue_key }}/transitions' --user '${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_PASSWD }}' --header 'Accept: application/json' --header 'Content-Type: application/json' --data '{"transition": {"id": ${{ steps.issue_status.outputs.id }}}}'
