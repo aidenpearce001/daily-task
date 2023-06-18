@@ -13,7 +13,7 @@ jobs:
       - name: Extract Jira issue key
         id: extract_key
         run: |
-          echo "::set-output name=issue_key::${{ github.event.issue.title }} | grep -oP '\[\K[^]]+')"
+          echo "::set-output name=issue_key::${{ github.event.issue.title }} | grep -oP '\[\K[^]]+'"
 
       - name: Task Action
         run: |
