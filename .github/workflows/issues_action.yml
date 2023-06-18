@@ -27,8 +27,4 @@ jobs:
             --user '${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_PASSWD }}'   \
             --header 'Accept: application/json'   \
             --header 'Content-Type: application/json'   \
-            --data '{
-            "transition": {
-              "id": $id
-              }
-            }'
+            --data '{"transition": {"id": $id}}'
