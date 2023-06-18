@@ -18,9 +18,9 @@ jobs:
       - name: Task Action
         run: |
           if [[ "${{ github.event.action }}" == "closed" ]]; then
-            $id="31"
+            id="31"
           elif [[ "${{ github.event.action }}" == "labeled" && "${{ github.event.label.name }}" == "on-going" ]]; then
-            $id="21"
+            id="21"
           fi
           
           curl --request POST  \ 
