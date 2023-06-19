@@ -16,21 +16,21 @@ def get_all_assigned_issues():
 
     jql = 'assignee = currentUser() AND status="To Do"'
     issues = jira.search_issues(jql)
-    # print(issues)
 
     for issue in issues:
+        issue_title = f"[{issue.key}] {issue.fields.summary}"
         found = False
 
         # Check if the issue is already created in Github
         for git_issue in repo.get_issues(state='open'):
-            if git_issue.title == issue.fields.summary:
+            if git_issue.title == issue_title:
                 found = True
                 break
 
         if not found:
             # Create a new issue if not found in Github
             repo.create_issue(
-                title=f"[{issue.key}] {issue.fields.summary}",
+                title=issue_title,
                 body=str(issue.fields.description)
             )
 
